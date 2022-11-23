@@ -15,8 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'movie_actors',
         foreignKey: 'movieId'
       })
-      Movie.hasOne(models.Director, {
-        foreignKey: 'directorId'
+      Movie.belongsTo(models.Director, {
+        foreignKey: 'directorId',
+        as: 'director'
       })
     }
   }

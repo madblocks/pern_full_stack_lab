@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Director.belongsTo(models.Movie, {
-        foreignKey: 'directorId'
+      Director.hasMany(models.Movie, {
+        foreignKey: 'directorId',
       })
     }
   }

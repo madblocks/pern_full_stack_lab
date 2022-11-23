@@ -5,7 +5,7 @@ const { Movie, Actor, Director } = require("../models")
 //CREATE
 const CreateActor = async (req, res) => {
   try {
-    let actorId = parseInt(req.params.actor_id)
+    let actorId = parseInt(req.params.actorId)
     let actorBody = { actorId, ...req.body }
     let actor = await Actor.create(actorBody)
     res.send(actor)
@@ -17,7 +17,7 @@ const CreateActor = async (req, res) => {
 //FIND (READ)
 const FindAllActors = async (req, res) => {
   try {
-    const result = await Actor.findAll()
+    const result = await Actor.findAll({attributes: ['id','firstName','lastName','birthYear']})
     res.send(result)
   } catch (error) {
     throw error
@@ -26,7 +26,27 @@ const FindAllActors = async (req, res) => {
 
 const FindActorMovie = async (req, res) => {
   try {
-    const result = await Actor.findByPk(3, {include: [{model: Movie, as: 'actor_in_movies'}]})
+    let actorId = parseInt(req.params.actorId)
+    const result = await Actor.findAll( 
+      {
+        where: {id: actorId},
+        include: [{
+            model: Movie, 
+            as: 'actor_in_movies',
+            attributes: ['id','title','directorId','releaseDate','genre'],
+            through: { attributes: [] },
+            include: [{model: Director, as: 'director', attributes: ['firstName', 'lastName']}]
+        }],
+        attributes: ['id','firstName','lastName','birthYear'],
+      }
+    )
+    // console.log(result[0].dataValues.actor_in_movies)
+    // console.log(result.toJSON())
+    // const director = await Director.findAll(
+    //   {
+    //     where: {id: result.actor_in_movies[0].directorId}
+    //   }
+    // )
     res.send(result)
   } catch (error) {
     throw error
