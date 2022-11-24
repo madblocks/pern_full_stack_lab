@@ -40,13 +40,6 @@ const FindActorMovie = async (req, res) => {
         attributes: ['id','firstName','lastName','birthYear'],
       }
     )
-    // console.log(result[0].dataValues.actor_in_movies)
-    // console.log(result.toJSON())
-    // const director = await Director.findAll(
-    //   {
-    //     where: {id: result.actor_in_movies[0].directorId}
-    //   }
-    // )
     res.send(result)
   } catch (error) {
     throw error

@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Director.hasMany(models.Movie, {
         foreignKey: 'directorId',
+        as: 'director_movie'
       })
     }
   }
