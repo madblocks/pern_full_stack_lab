@@ -1,6 +1,8 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
+import AddMovie from './components/AddMovie'
+import MovieDetails from './components/MovieDetails'
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <main>
         <Routes>
           <Route path='/' element={<Home/>}/>
+          <Route path='/addmovie' element={<AddMovie/>}/>
+          <Route path='/movies/:movieId' element={<MovieDetails/>}/>
           {/* <Route path='/actor/:id' element={<Actor/>}/> */}
         </Routes>
       </main>

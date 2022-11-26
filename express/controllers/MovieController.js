@@ -5,7 +5,7 @@ const director = require("../models/director")
 const FindAllMovies = async (req, res) => {
   try {
     const result = await Movie.findAll({
-      attributes: ['title','releaseDate','genre'],
+      attributes: ['id','title','releaseDate','genre'],
       include: [{model: Director, as: 'director', attributes: ['firstName','lastName']}]
     })
     res.send(result)
@@ -14,6 +14,37 @@ const FindAllMovies = async (req, res) => {
   }
 }
 
+const FindMovie = async (req, res) => {
+  try {
+    const result = await Movie.findAll({
+      where: {id: req.params.movidId},
+      attributes: ['id','title','releaseDate', 'genre'],
+      include: [{model: Director, as: 'director', attributes: ['firstName','lastName']}]
+    })
+    console.log(req.params)
+
+    res.send(result)
+  } catch (error) {
+    throw error
+  }
+}
+
+const AddMovie = async (req, res, next) => {
+  try {
+    const director = await Director.create({firstName: req.body.director.firstName, lastName: req.body.director.lastName})
+    console.log(req.dataValues)
+    const movie = await Movie.create({
+      title: req.body.title, 
+      releaseDate: req.body.releaseDate, 
+      genre: req.body.genre, 
+      directorId: director.dataValues.id})
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
-  FindAllMovies
+  FindAllMovies,
+  FindMovie,
+  AddMovie
 }

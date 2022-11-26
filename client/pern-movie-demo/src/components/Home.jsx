@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { NavLink, useNavigate } from 'react-router-dom'
+
 
 const StyledHome = styled.div`
   text-align: center;
@@ -37,10 +39,16 @@ const StyledHome = styled.div`
     display:flex;
     align-items: center;
     justify-content: center;
-    
+
   }
   #newMovieIcon {
     height: 50px;
+  }
+  &:focus, &:hover, &:visited, &:link, &:active {
+    text-decoration: none;
+  }
+  .navLink:active {
+    text-decoration: none;
   }
 `
 
@@ -56,6 +64,11 @@ export default function Home () {
     getMovies()
   }, [])
 
+  let navigate = useNavigate()
+
+  const movieDetails = (movieId) => {
+    navigate(`/movies/${movieId}`)
+  }
 
   return (movies) ? (
     <StyledHome>
@@ -64,7 +77,7 @@ export default function Home () {
         {
           movies.map((movie) => {
             return (
-              <div className='movie' key={movie.title}>
+              <div className='movie' key={movie.id} onClick={() => movieDetails(movie.id)}>
                 <div className='title'>{movie.title}</div>
                 <div className='genre'>Genre: {movie.genre}</div>
                 <div className='releaseDate'>Release: {movie.releaseDate}</div>
@@ -74,7 +87,7 @@ export default function Home () {
           })
         }
         <div className='newMovieButton'>
-          <FontAwesomeIcon icon={faPlus} id='newMovieIcon'/>
+          <NavLink to="/addmovie" className='navLink'><FontAwesomeIcon className='navLink' icon={faPlus} id='newMovieIcon'/></NavLink>
         </div>
         </div>
     </StyledHome>
