@@ -43,8 +43,20 @@ const AddMovie = async (req, res, next) => {
   }
 }
 
+const DeleteMovie = async (req, res, next) => {
+  try { 
+    console.log(req.params.movieId)
+    console.log(req.body.id)
+    const deletedMovie = await Movie.destroy({where: {id: req.body.id}})
+    res.send(`deleted Movie Id something`)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   FindAllMovies,
   FindMovie,
-  AddMovie
+  AddMovie,
+  DeleteMovie
 }
