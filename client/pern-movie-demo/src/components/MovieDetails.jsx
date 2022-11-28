@@ -22,26 +22,24 @@ const StyledMovie = styled.div`
 
 export default function MovieDetails () {
   
-  let { id } = useParams()
-  console.log(id)
+  let { movieId } = useParams()
 
   const [ movie, setMovie ] = useState()
 
   useEffect(() => {
-    console.log(id)
-    // const getMovie = async () => {
-    //   const response = await axios.get(`http://localhost:3001/api/movies/${id}`)
-    //   setMovie(response.data)
-    // }
-    // getMovie()
-  }, [id])
+    const getMovie = async () => {
+      const response = await axios.get(`http://localhost:3001/api/movies/${movieId}`)
+      setMovie(response.data)
+    }
+    getMovie()
+  }, [movieId])
 
   return (movie ? (
     <StyledMovie>
-      {/* <div className='title'>{movie.title}</div>
-      <div className='genre'>Genre: {movie.genre}</div>
-      <div className='releaseDate'>Release: {movie.releaseDate}</div>
-      <div className='director'>Director: {movie.director.firstName} {movie.director.lastName}</div> */}
+      <div className='title'>{movie[0].title}</div>
+      <div className='genre'>Genre: {movie[0].genre}</div>
+      <div className='releaseDate'>Release: {movie[0].releaseDate}</div>
+      <div className='director'>Director: {movie[0].director.firstName} {movie[0].director.lastName}</div>
     </StyledMovie>
   ) : null)
 }
